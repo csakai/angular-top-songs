@@ -5,7 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "build-templates": "node scripts/build-template-cache.js",
-    "client-dep": "./scripts/client-dep",
+    "client-dep": "./scripts/client-dep.sh",
     "start": "node server/index.js",
     "test": "./node_modules/karma/bin/karma start karma.conf.js"
   },
