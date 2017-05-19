@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
-<html ng-app="app">
+<html ng-app="main">
     <head>
         <title>Angular Top Songs</title>
     </head>
     <body>
-        <div ng-controller="appCtrl as app">
-            <item-container ng-if="app.items" items="app.items">
-            </item-container>
+        <div ng-controller="MainCtrl as Main">
+            {{Main.name}}
+            <song-searchbar on-search="Main.searchHandler(data)"></song-searchbar>
         </div>
         <% vendor_deps.forEach(function(dep) { %>
             <script type="text/javascript" src="vendor/<%= dep %>"></script>
