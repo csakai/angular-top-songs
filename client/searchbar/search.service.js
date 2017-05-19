@@ -1,27 +1,60 @@
 angular.module('searchbar')
-  .service('SearchSvc', function(Spotify) {
-      var DEFAULT_TYPES = 'artist,album,track';
-      var LIMIT = 10;
-      this.search = function(terms, offset, types) {
-          // types is an optional param - sometimes when doing a multi-type search,
-          // the spotify API will have no more results after the returned result
-          // for one type of searchtype, but the other search types will have more results
-          offset = offset || 0;
-          // offset is our search offset, and by default,
-          //we are going to limit results to 10 per type
-          var typeParam;
-          if (types) {
-              typeParam = types.join(',');
-          } else {
-              typeParam = DEFAULT_TYPES;
-          }
-          var options = {
-              limit: LIMIT,
-              offset: offset
-          }
-          return Spotify.search(terms, typeParam, options)
-            .then(function(response) {
-                return response.data;
-            });
+  .service('SearchSvc', function($q, Spotify) {
+    var service = this;
+    var DEFAULT_TYPES = 'artist,album,track';
+    var LIMIT = 10;
+
+    this.currentTerm = '';
+    this.cached = {};
+
+    this.handleData = function(data) {
+      var parsedData = _.reduce(data, function(acc, val, key) {
+        acc[key] = _.pick(val, [ 'items', 'total', 'offset' ]);
+        acc[key].next = (val.total - val.offset > LIMIT);
+        return acc;
+      }, {});
+      if (_.isEmpty(this.cached)) {
+        this.cached = parsedData;
+      } else {
+        _.forEach(parsedData, function(searchMeta, key) {
+          var cachedData = service.cached[key];
+          cachedData.offset = searchMeta.offset;
+          cachedData.items.concat(searchMeta.items);
+          cachedData.next = searchMeta.next;
+        });
       }
-  })
+      return this.cached;
+    };
+
+    this.getNextOffset = function(type) {
+      return this.cached[type].offset + LIMIT;
+    };
+
+    this.getResults = function(terms, type, offset) {
+      type = type || DEFAULT_TYPES;
+      var options = {
+        limit: LIMIT,
+        offset: offset || 0
+      };
+      return Spotify.search(terms, type, options)
+        .then(function(response) {
+          return service.handleData(response.data);
+        });
+    };
+    this.search = function(terms, type) {
+      var promise;
+      if (this.currentTerm === terms) {
+        if (type) {
+          var offset = this.getNextOffset(type);
+          promise = this.getResults(terms, type, offset);
+        } else {
+          promise = $q.resolve(this.cached);
+        }
+      } else {
+        this.currentTerm = terms;
+        this.cached = {};
+        promise = this.getResults(terms);
+      }
+      return promise;
+    };
+  });
