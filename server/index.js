@@ -19,7 +19,7 @@ app.get('/ping', function(req, res, next) {
     res.send('pong');
 });
 app.use("/src", express.static(path.resolve(__dirname + "/../client/")));
-app.use("/assets", express.static(path.resolve(__dirname + "/../client/assets")));
+app.use("/assets", express.static(path.resolve(__dirname + "/../assets")));
 app.use("/vendor", express.static(path.resolve(__dirname + "/../node_modules/")));
 
 

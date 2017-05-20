@@ -1,19 +1,31 @@
 <!DOCTYPE HTML>
 <html ng-app="main">
-    <head>
-        <title>Angular Top Songs</title>
-    </head>
-    <body>
-        <div ng-controller="MainCtrl as Main">
-            {{Main.name}}
-            <song-searchbar on-search="Main.searchHandler(data)"></song-searchbar>
+  <head>
+    <title>Angular Top Songs</title>
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/angular-ui-bootstrap/dist/ui-bootstrap-csp.css">
+    <link rel="stylesheet" type="text/css" href="src/main.css">
+  </head>
+  <body>
+    <div class="container" ng-controller="MainCtrl as Main">
+      <div class="row">
+        <div class="col-xs-2">
+          <!--playlist here -->
         </div>
-        <% vendor_deps.forEach(function(dep) { %>
-            <script type="text/javascript" src="vendor/<%= dep %>"></script>
-        <% }); %>
+        <div class="col-xs-10">
+          <song-searchbar on-search="Main.searchHandler(data)"></song-searchbar>
+          <div class="results-container">
+            <artist class="result" ng-repeat="info in Main.data.artists.items" info="info"></artist>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% vendor_deps.forEach(function(dep) { %>
+      <script type="text/javascript" src="vendor/<%= dep %>"></script>
+    <% }); %>
 
-        <% src_deps.forEach(function(dep) { %>
-            <script type="text/javascript" src="src/<%= dep %>"></script>
-        <% }); %>
-    </body>
+    <% src_deps.forEach(function(dep) { %>
+      <script type="text/javascript" src="src/<%= dep %>"></script>
+    <% }); %>
+  </body>
 </html>
