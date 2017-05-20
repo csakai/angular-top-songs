@@ -16,6 +16,9 @@
           <song-searchbar on-search="Main.searchHandler(data)"></song-searchbar>
           <div class="results-container">
             <artist class="result" ng-repeat="info in Main.data.artists.items" info="info"></artist>
+            <button ng-if="Main.data.artists.next" ng-click="Main.more('artist')">
+              Load more artists
+            </button>
           </div>
         </div>
       </div>

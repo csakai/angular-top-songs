@@ -24,7 +24,7 @@ angular.module('search')
         _.forEach(parsedData, function(searchMeta, key) {
           var cachedData = service.cached[key];
           cachedData.offset = searchMeta.offset;
-          cachedData.items.concat(searchMeta.items);
+          cachedData.items = cachedData.items.concat(searchMeta.items);
           cachedData.next = searchMeta.next;
         });
       }
