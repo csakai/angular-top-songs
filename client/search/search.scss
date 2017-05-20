@@ -1,0 +1,24 @@
+.results-container {
+    display: flex;
+    flex-wrap: wrap;
+    .result {
+        width: 150px;
+        .preview, .no-preview {
+            background-image: url(/assets/img/spotify-icon.png);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            width: 130px;
+            height: 130px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .thumbnail {
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: flex-start;
+            height: 200px;
+        }
+    }
+}
+

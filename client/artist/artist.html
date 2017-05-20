@@ -1,0 +1,12 @@
+<div class="artist">
+  <div class="thumbnail">
+    <div class="no-preview" ng-if="!Artist.info.images[0]"></div>
+    <div class="preview"
+      ng-if="Artist.info.images[0]"
+      ng-style="{ 'background-image': 'url(' + Artist.info.images[0].url + ')' }"></div>
+    <div class="caption">
+      <h4>{{Artist.info.name}}</h4>
+      <button ng-click="Artist.viewAlbums({ id: Artist.info.id })">View Albums</button>
+    </div>
+  </div>
+</div>

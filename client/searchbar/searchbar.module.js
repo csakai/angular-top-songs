@@ -1,1 +1,1 @@
-angular.module('searchbar', [ 'spotify' ]);
+angular.module('searchbar', [ 'search' ]);

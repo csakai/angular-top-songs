@@ -1,6 +1,11 @@
-angular.module('searchbar')
+angular.module('search')
   .service('SearchSvc', function($q, Spotify) {
     var service = this;
+    var TYPE_MAP = {
+      artist: 'artists',
+      album: 'albums',
+      track: 'tracks'
+    };
     var DEFAULT_TYPES = 'artist,album,track';
     var LIMIT = 10;
 
@@ -27,7 +32,8 @@ angular.module('searchbar')
     };
 
     this.getNextOffset = function(type) {
-      return this.cached[type].offset + LIMIT;
+      var key = TYPE_MAP[type];
+      return this.cached[key].offset + LIMIT;
     };
 
     this.getResults = function(terms, type, offset) {
