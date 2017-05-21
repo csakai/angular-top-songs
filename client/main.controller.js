@@ -1,23 +1,12 @@
 angular.module('main')
   .controller('MainCtrl', function($scope, SearchSvc) {
     var ctrl = this;
-    this.name = 'main';
-    this.hasResults = {
-      artists: false,
-      albums: false,
-      tracks: false
-    };
+    this.loadStartEvent = 'loading:start';
+    this.loadEndEvent = 'loading:end';
     this.loading = {
       artists: false,
       albums: false,
       tracks: false
-    };
-    this.collapsed = {
-      artists: false,
-      albums: false
-    };
-    this.toggleCollapsed = function(type) {
-      this.collapsed[type] = !this.collapsed[type];
     };
     var setLoadingToTrue = function(types) {
       types.split(',').forEach(function(type) {
@@ -39,17 +28,29 @@ angular.module('main')
     this.isNotWaiting = function() {
       return !_.some(this.loading);
     };
-
-    this.searchHandler = function(data) {
+    this.dataHandler = function(data) {
       this.data = data;
       setLoadingToFalse();
-      _.forEach(data, function(results, key) {
-        ctrl.hasResults[key] = !_.isEmpty(results.items);
-      });
     };
 
     this.more = function(type) {
-      SearchSvc.search(SearchSvc.currentTerm, type)
-        .then(this.searchHandler.bind(this));
+      return SearchSvc.search(SearchSvc.currentTerm, type)
+        .then(this.dataHandler.bind(this));
+    };
+    this.getAlbumsByArtist = function(id) {
+      return Spotify.getArtistAlbums(id)
+        .then(function(data) {
+          ctrl.displayAlbumBack = true;
+          ctrl.data = data;
+          ctrl.albumMore = () => console.log('album more');
+        });
+    };
+    this.getTracksByAlbum = function(id) {
+      return Spotify.getAlbumTracks(id)
+        .then(function(data) {
+          ctrl.displayTrackBack = true;
+          ctrl.data = data;
+          ctrl.trackMore = () => console.log('track more');
+        });
     };
   });

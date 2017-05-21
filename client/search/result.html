@@ -1,0 +1,13 @@
+<div class="thumbnail">
+  <div class="no-preview" ng-if="!Result.info.images[0]"></div>
+  <div class="preview"
+    ng-if="Result.info.images[0]"
+    ng-style="{ 'background-image': 'url('+Result.info.images[0].url + ')' }">
+  </div>
+  <div class="caption">
+    <h4>{{Result.info.name}}</h4>
+    <div ng-transclude="content"></div>
+    <div ng-transclude="note"></div>
+    <button ng-click="Result.action({ id: Result.info.id })">{{::Result.ctaText}}</button>
+  </div>
+</div>

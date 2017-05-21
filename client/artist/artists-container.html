@@ -1,0 +1,34 @@
+<div ng-if="Artists.info.items">
+  <a href="javascript:void(0);"
+    ng-click="Artists.toggleCollapsed()"
+    class="btn"
+    ng-class="{
+      'btn-danger': Artists.collapsed,
+      'btn-success': !Artists.collapsed
+    }">
+    <h3>
+      <span class="glyphicon"
+        ng-class="{
+          'glyphicon-plus': Artists.collapsed,
+          'glyphicon-minus': !Artists.collapsed
+        }"></span>
+        Artists
+    </h3>
+  </a>
+  <div uib-collapse="Artists.collapsed">
+    <div class="results-container">
+      <result ng-repeat="artist in Artists.info.items"
+        class="result"
+        info="artist"
+        action="Artists.action(artist.id)"
+        cta-text="View Albums"></result>
+      <div class="result load-more">
+        <button class="load-more-btn btn btn-success"
+          ng-if="Artists.info.next"
+          ng-click="Artists.more()">
+          View More Artists
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

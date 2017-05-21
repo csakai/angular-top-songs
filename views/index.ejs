@@ -13,28 +13,16 @@
           <!--playlist here -->
         </div>
         <div class="col-xs-10">
-          <song-searchbar can-search="Main.isNotWaiting()" on-search="Main.searchHandler(data)"></song-searchbar>
-          <div ng-if="Main.hasResults.artists">
-            <a href="javascript:void(0);"
-              ng-click="Main.toggleCollapsed('artists')"
-              class="btn"
-              ng-class="{ 'btn-danger': Main.collapsed.artists, 'btn-success': !Main.collapsed.artists }">
-              <h3>
-                <span class="glyphicon"
-                  ng-class="{ 'glyphicon-minus': !Main.collapsed.artists, 'glyphicon-plus': Main.collapsed.artists }">
-                </span>
-                Artists
-              </h3>
-            </a>
-            <div uib-collapse="Main.collapsed.artists">
-              <div class="results-container">
-                <artist class="result" ng-repeat="info in Main.data.artists.items" info="info"></artist>
-                <div class="result load-more">
-                  <button class="load-more-btn btn btn-success" ng-if="Main.data.artists.next" ng-click="Main.more('artist')">
-                    Load more artists
-                  </button>
-                </div>
-              </div>
+          <song-searchbar can-search="Main.isNotWaiting()" on-search="Main.dataHandler(data)"></song-searchbar>
+          <artists info="Main.data.artists",
+            action="Main.getAlbumsByArtist(id)"
+            get-more="Main.more('artist')"
+            load-start-event="{{::Main.loadStartEvent}}"
+            load-end-event="{{::Main.loadEndEvent}}"></artists>
+          </div>
+          <div ng-if="Main.hasResults.albums">
+            <div class="results-container">
+              <result class="result" info="Main.data.albums.items[0]" action="Main.logThing(id)" cta-text="View Tracks"></result>
             </div>
           </div>
         </div>
