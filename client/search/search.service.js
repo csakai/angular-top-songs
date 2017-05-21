@@ -7,6 +7,7 @@ angular.module('search')
       track: 'tracks'
     };
     var DEFAULT_TYPES = 'artist,album,track';
+    this.DEFAULT_TYPES = DEFAULT_TYPES;
     var LIMIT = 10;
 
     this.currentTerm = '';

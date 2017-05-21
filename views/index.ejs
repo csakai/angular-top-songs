@@ -13,12 +13,29 @@
           <!--playlist here -->
         </div>
         <div class="col-xs-10">
-          <song-searchbar on-search="Main.searchHandler(data)"></song-searchbar>
-          <div class="results-container">
-            <artist class="result" ng-repeat="info in Main.data.artists.items" info="info"></artist>
-            <button ng-if="Main.data.artists.next" ng-click="Main.more('artist')">
-              Load more artists
-            </button>
+          <song-searchbar can-search="Main.isNotWaiting()" on-search="Main.searchHandler(data)"></song-searchbar>
+          <div ng-if="Main.hasResults.artists">
+            <a href="javascript:void(0);"
+              ng-click="Main.toggleCollapsed('artists')"
+              class="btn"
+              ng-class="{ 'btn-danger': Main.collapsed.artists, 'btn-success': !Main.collapsed.artists }">
+              <h3>
+                <span class="glyphicon"
+                  ng-class="{ 'glyphicon-minus': !Main.collapsed.artists, 'glyphicon-plus': Main.collapsed.artists }">
+                </span>
+                Artists
+              </h3>
+            </a>
+            <div uib-collapse="Main.collapsed.artists">
+              <div class="results-container">
+                <artist class="result" ng-repeat="info in Main.data.artists.items" info="info"></artist>
+                <div class="result load-more">
+                  <button class="load-more-btn btn btn-success" ng-if="Main.data.artists.next" ng-click="Main.more('artist')">
+                    Load more artists
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
