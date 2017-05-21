@@ -1,4 +1,8 @@
 <form name="Search.form" ng-submit="Search.canSearch && Search.search(Search.terms)">
-  <input type="text" ng-model="Search.terms" name="terms" />
-  <button type="submit" ng-disabled="!Search.canSearch">Search</button>
+  <div class="input-group">
+    <input class="form-control" type="text" ng-model="Search.terms" name="terms" />
+    <span class="input-group-btn">
+      <button class="btn btn-primary" type="submit" ng-disabled="!Search.canSearch">Search</button>
+    </span>
+  </div>
 </form>
