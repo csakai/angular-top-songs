@@ -26,6 +26,7 @@
       <result ng-repeat="album in Albums.info.items"
         class="result"
         info="album"
+        image="album.images[0].url"
         action="Albums.action(album.id)"
         cta-text="View Tracks"></result>
       <div class="result load-more" ng-if="Albums.info.next">

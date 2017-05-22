@@ -8,9 +8,20 @@
   </head>
   <body>
     <div class="container" ng-controller="MainCtrl as Main">
-      <div class="row">
+      <h1>Create your top 10 playlist</h1>
+      <div class="row" ng-show="Main.playlistCompleted">
+        <button class="btn btn-danger" ng-click="Main.backToPlaylistCreation()">
+          Back to playlist creation
+        </button>
+        <pre>
+          <code>
+            {{Main.playlistJson | json}}
+          </code>
+        </pre>
+      </div>
+      <div class="row" ng-hide="Main.playlistCompleted">
         <div class="col-xs-2">
-          <!--playlist here -->
+          <playlist songs="Main.playlist" display-json="Main.displayJson(playlist)" limit="Main.playlistLimit"></playlist>
         </div>
         <div class="col-xs-10">
           <song-searchbar can-search="Main.isNotWaiting()"
@@ -22,25 +33,24 @@
             ng-show="!(Main.albumsOnly || Main.tracksOnly)"
             action="Main.getAlbumsByArtist(id)"
             get-more="Main.artistMore()"
-            can-load-more="Main.isNotWaiting()"
-            load-start-event="{{::Main.loadStartEvent}}"></artists>
+            can-load-more="Main.isNotWaiting()"></artists>
           <albums info="Main.data.albums"
             ng-hide="Main.tracksOnly"
             action="Main.getTracksByAlbum(id)"
             get-more="Main.albumMore()"
             can-load-more="Main.isNotWaiting()"
             display-only="Main.albumsOnly"
-            go-back="Main.backToSearch()"
-            load-start-event="{{::Main.loadStartEvent}}"></albums>
+            go-back="Main.backToSearch()"></albums>
           <tracks info="Main.data.tracks"
+            album-name="Main.albumName"
+            image="Main.tracksImage"
             ng-hide="Main.albumsOnly"
             action="Main.addToPlaylist(playlistData)"
             can-add-to-playlist="Main.canAddToPlaylist(id)"
             get-more="Main.trackMore()"
             can-load-more="Main.isNotWaiting()"
             display-only="Main.tracksOnly"
-            go-back="Main.backToAlbums()"
-            load-start-event="{{::Main.loadStartEvent}}"></tracks>
+            go-back="Main.backToAlbums()"></tracks>
         </div>
       </div>
     </div>

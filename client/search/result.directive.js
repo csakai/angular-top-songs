@@ -4,13 +4,18 @@ angular.module('search')
       if (_.isUndefined(ctrl.canDoAction)) {
         ctrl.canDoAction = true;
       }
+      if (_.isUndefined(ctrl.ctaType)) {
+        ctrl.ctaType = 'success';
+      }
     }
     return {
       bindToController: {
         info: '=',
+        image: '=?',
         action: '&',
         hideButton: '=?',
         canDoAction: '=?',
+        ctaType: '@?',
         ctaText: '@'
       },
       controller: angular.noop,

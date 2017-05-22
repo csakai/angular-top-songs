@@ -20,6 +20,7 @@
       <result ng-repeat="artist in Artists.info.items"
         class="result"
         info="artist"
+        image="artist.images[0].url"
         action="Artists.action(artist.id)"
         cta-text="View Albums"></result>
       <div class="result load-more" ng-if="Artists.info.next">

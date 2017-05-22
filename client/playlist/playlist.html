@@ -1,0 +1,27 @@
+<div>
+  <h2>{{ Playlist.name || 'Top 10...'}} - {{ '(' + Playlist.songs.length + ' / ' + Playlist.limit + ' tracks )'}}</h1>
+  <p>Add 10 tracks using the search to the right in order to get a JSON representation of your top 10 songs!</p>
+  <form name="Playlist.info" ng-submit="Playlist.exportToJson()" novalidate>
+    <div class="form-group">
+      <label for="name-input">Give your playlist a name:</label>
+      <input id="name-input" class="form-control" type="text" name="name" ng-model="Playlist.name" required />
+      <button class="btn btn-success" type="submit" ng-click="Playlist.exportToJson()">
+        Create Playlist!
+      </button>
+    </div>
+  </form>
+  <div class="results-container playlist">
+    <result ng-repeat="song in Playlist.songs"
+      class="result"
+      info="song"
+      image="song.customImage"
+      action="Playlist.removeSong($index)"
+      cta-type="danger"
+      cta-text="Remove song">
+      <extra-content>
+        <p class="note" ng-bind="song.note"></p>
+        <a ng-href="{{song.customImage}}">{{song.customImage}}</a>
+      </extra-content>
+    </result>
+  </div>
+</div>

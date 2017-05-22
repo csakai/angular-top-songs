@@ -1,20 +1,16 @@
 <div class="thumbnail">
-  <div class="no-preview" ng-if="!Result.info.images[0]"></div>
+  <div class="no-preview" ng-if="!Result.image"></div>
   <div class="preview"
-    ng-if="Result.info.images[0]"
-    ng-style="{ 'background-image': 'url('+Result.info.images[0].url + ')' }">
+    ng-if="Result.image"
+    ng-style="{ 'background-image': 'url('+Result.image + ')' }">
   </div>
   <div class="caption">
     <h4>{{Result.info.name}}</h4>
     <div ng-transclude="content"></div>
     <div ng-transclude="note"></div>
     <button class="btn"
-      ng-hide="Result.hideButton"
-      ng-disabled="!Result.canDoAction"
-      ng-class="{
-        'btn-success': Result.canDoAction,
-        'btn-danger': !Result.canDoAction
-      }"
+      ng-class="'btn-'+Result.ctaType"
+      ng-hide="Result.hideButton || !Result.canDoAction"
       ng-click="Result.action({ id: Result.info.id })">{{::Result.ctaText}}</button>
   </div>
 </div>

@@ -2,8 +2,12 @@ angular.module('search')
   .directive('tracks', function() {
     function link(scope, el, attr, ctrl) {
       scope.$watch('Tracks.displayOnly', function(newVal, oldVal) {
-        if (newVal !== oldVal && newVal) {
-          ctrl.collapsed = false;
+        if (newVal !== oldVal) {
+          if (newVal) {
+            ctrl.collapsed = false;
+          } else {
+            ctrl.reset();
+          }
         }
       });
       ctrl.addToPlaylist = function(track) {
@@ -14,9 +18,9 @@ angular.module('search')
             artistArr.push(artist.name);
             return artistArr;
           }, []).join(', '),
-          album: track.album.name,
+          album: ctrl.albumName || track.album.name,
           note: ctrl.note,
-          customImage: ctrl.image
+          customImage: ctrl.customImage
         };
         ctrl.actionFn({ playlistData: playlistData });
         ctrl.reset();
@@ -25,18 +29,21 @@ angular.module('search')
       ctrl.showNoteForm = function(id) {
         ctrl.selectedId = id;
         ctrl.showNote = true;
+        ctrl.customImage = ctrl.image;
       };
 
       ctrl.reset = function() {
         ctrl.selectedId = '';
         ctrl.showNote = false;
         ctrl.note = '';
-        ctrl.image = '';
+        ctrl.customImage = '';
       };
     }
     return {
       bindToController: {
         info: '=',
+        albumName: '=?',
+        image: '=?',
         actionFn: '&action',
         canAddToPlaylist: '&',
         getMore: '&',

@@ -8,6 +8,7 @@ angular.module('main')
       tracks: false
     };
     this.playlist = [];
+    this.playlistLimit = 10;
 
     var setMethodsAs = {
       search: function() {
@@ -20,7 +21,7 @@ angular.module('main')
         ctrl.albumsOnly = true;
         ctrl.tracksOnly = false;
       },
-      tracks: function() {
+      tracks: function(){
         ctrl.more = TrackSvc.getTracksByAlbum.bind(TrackSvc, TrackSvc.currentAlbumId, true);
         ctrl.albumsOnly = false;
         ctrl.tracksOnly = true;
@@ -54,7 +55,11 @@ angular.module('main')
         .then(this.dataHandler.bind(this));
     };
     this.backToAlbums = function() {
-      this.getAlbumsByArtist(AlbumSvc.currentArtistId);
+      this.getAlbumsByArtist(AlbumSvc.currentArtistId)
+        .then(function() {
+          ctrl.tracksImage = '';
+          ctrl.albumName = '';
+        });
     };
     this.dataHandler = function(data) {
       this.data = data;
@@ -63,18 +68,18 @@ angular.module('main')
 
     this.artistMore = function() {
       setLoadingToTrue('artists');
-      this.more('artist')
+      return this.more('artist')
         .then(this.dataHandler.bind(this));
     };
     this.albumMore = function() {
       setLoadingToTrue('albums');
-      this.more('album')
+      return this.more('album')
         .then(this.dataHandler.bind(this));
     };
 
     this.trackMore = function() {
       setLoadingToTrue('tracks');
-      this.more('track')
+      return this.more('track')
         .then(this.dataHandler.bind(this));
     };
 
@@ -88,6 +93,9 @@ angular.module('main')
     };
 
     this.getTracksByAlbum = function(id) {
+      var album = _.find(this.data.albums.items, [ 'id', id ]);
+      this.tracksImage = album.images[0].url;
+      this.albumName = album.name;
       setLoadingToTrue('track');
       return TrackSvc.getTracksByAlbum(id)
         .then(this.dataHandler.bind(this))
@@ -97,12 +105,26 @@ angular.module('main')
     };
 
     this.canAddToPlaylist = function(id) {
-      return -1 === _.findIndex(this.playlist, function(track) {
-        return track.id === id;
-      });
+      var isPlaylistFull = (this.playlist.length >= this.playlistLimit);
+      if (isPlaylistFull) {
+        return false;
+      } else {
+        return -1 === _.findIndex(this.playlist, function(track) {
+          return track.trackId === id;
+        });
+      }
     };
 
     this.addToPlaylist = function(track) {
       this.playlist.push(track);
+    };
+
+    this.displayJson = function(playlist) {
+      this.playlistCompleted = true;
+      this.playlistJson = playlist;
+    };
+    this.backToPlaylistCreation = function() {
+      this.playlistCompleted = false;
+      this.playlistJson = {};
     };
   });
