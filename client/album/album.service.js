@@ -23,7 +23,7 @@ angular.module('search')
           var offset = SpotifyData.getNextOffset(this.cacheId);
           promise = getAlbums(id, offset);
         } else {
-          promise = $q.resolve(SpotifyData.cached.get(this.cacheId));
+          promise = $q.resolve(SpotifyData.cache.get(this.cacheId));
         }
       } else {
         this.currentArtistId = id;

@@ -25,7 +25,7 @@ angular.module('search')
           var offset = SpotifyData.getNextOffset(this.cacheId, type);
           promise = getResults(terms, type, offset);
         } else {
-          promise = $q.resolve(SpotifyData.cached.get(this.cacheId));
+          promise = $q.resolve(SpotifyData.cache.get(this.cacheId));
         }
       } else {
         this.currentTerm = terms;
