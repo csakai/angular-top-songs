@@ -47,6 +47,15 @@ angular.module('main')
     this.setToSearchMode = function() {
       setMethodsAs.search();
     };
+    this.backToSearch = function() {
+      this.setToSearchMode();
+      setLoadingToTrue(SearchSvc.DEFAULT_TYPES);
+      SearchSvc.search(SearchSvc.currentTerm)
+        .then(this.dataHandler.bind(this));
+    };
+    this.backToAlbums = function() {
+      this.getAlbumsByArtist(AlbumSvc.currentArtistId);
+    };
     this.dataHandler = function(data) {
       this.data = data;
       setLoadingToFalse();
@@ -70,6 +79,7 @@ angular.module('main')
     };
 
     this.getAlbumsByArtist = function(id) {
+      setLoadingToTrue('album');
       return AlbumSvc.getAlbumsByArtist(id)
         .then(this.dataHandler.bind(this))
         .then(function() {
@@ -78,6 +88,7 @@ angular.module('main')
     };
 
     this.getTracksByAlbum = function(id) {
+      setLoadingToTrue('track');
       return TrackSvc.getTracksByAlbum(id)
         .then(this.dataHandler.bind(this))
         .then(function() {

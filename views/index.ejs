@@ -29,6 +29,8 @@
             action="Main.getTracksByAlbum(id)"
             get-more="Main.albumMore()"
             can-load-more="Main.isNotWaiting()"
+            display-only="Main.albumsOnly"
+            go-back="Main.backToSearch()"
             load-start-event="{{::Main.loadStartEvent}}"></albums>
           <tracks info="Main.data.tracks"
             ng-hide="Main.albumsOnly"
@@ -36,6 +38,8 @@
             can-add-to-playlist="Main.canAddToPlaylist(id)"
             get-more="Main.trackMore()"
             can-load-more="Main.isNotWaiting()"
+            display-only="Main.tracksOnly"
+            go-back="Main.backToAlbums()"
             load-start-event="{{::Main.loadStartEvent}}"></tracks>
         </div>
       </div>

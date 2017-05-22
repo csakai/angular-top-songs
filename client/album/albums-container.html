@@ -1,5 +1,6 @@
 <div ng-if="Albums.info.items">
   <a href="javascript:void(0);"
+    ng-hide="Albums.displayOnly"
     ng-click="Albums.toggleCollapsed()"
     class="btn"
     ng-class="{

@@ -37,6 +37,8 @@ angular.module('search')
         canAddToPlaylist: '&',
         getMore: '&',
         canLoadMore: '=',
+        displayOnly: '=',
+        goBack: '&',
         loadStartEvent: '@'
       },
       controller: 'resultsCtrl',

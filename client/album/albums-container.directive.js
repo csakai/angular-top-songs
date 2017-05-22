@@ -12,6 +12,8 @@ angular.module('search')
         actionFn: '&action',
         getMore: '&',
         canLoadMore: '=',
+        displayOnly: '=',
+        goBack: '&',
         loadStartEvent: '@'
       },
       controller: 'resultsCtrl',
