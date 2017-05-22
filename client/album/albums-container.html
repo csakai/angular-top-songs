@@ -1,0 +1,35 @@
+<div ng-if="Albums.info.items">
+  <a href="javascript:void(0);"
+    ng-click="Albums.toggleCollapsed()"
+    class="btn"
+    ng-class="{
+      'btn-danger': Albums.collapsed,
+      'btn-success': !Albums.collapsed
+    }">
+    <h3>
+      <span class="glyphicon"
+        ng-class="{
+          'glyphicon-plus': Albums.collapsed,
+          'glyphicon-minus': !Albums.collapsed
+        }"></span>
+        Albums
+    </h3>
+  </a>
+  <div uib-collapse="Albums.collapsed">
+    <div class="results-container">
+      <result ng-repeat="album in Albums.info.items"
+        class="result"
+        info="album"
+        action="Albums.action(album.id)"
+        cta-text="View Tracks"></result>
+      <div class="result load-more">
+        <button class="load-more-btn btn btn-success"
+          ng-if="Albums.info.next"
+          ng-disabled="!Albums.canLoadMore"
+          ng-click="Albums.more()">
+          View More Albums
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

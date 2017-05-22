@@ -1,0 +1,56 @@
+<div ng-if="Tracks.info.items">
+  <a href="javascript:void(0);"
+    ng-click="Tracks.toggleCollapsed()"
+    class="btn"
+    ng-class="{
+      'btn-danger': Tracks.collapsed,
+      'btn-success': !Tracks.collapsed
+    }">
+    <h3>
+      <span class="glyphicon"
+        ng-class="{
+          'glyphicon-plus': Tracks.collapsed,
+          'glyphicon-minus': !Tracks.collapsed
+        }"></span>
+        Tracks
+    </h3>
+  </a>
+  <div uib-collapse="Tracks.collapsed">
+    <div class="results-container">
+      <result ng-repeat="track in Tracks.info.items"
+        ng-if="!Tracks.selectedId || track.id === Tracks.selectedId"
+        class="result"
+        info="track"
+        action="Tracks.showNoteForm(track.id)"
+        can-do-action="Tracks.canAddToPlaylist({ id: track.id })"
+        hide-button="Tracks.showNote"
+        cta-text="Add to playlist">
+        <note ng-if="Tracks.showNote">
+          <form name="Tracks.playlistContent" ng-submit="Tracks.addToPlaylist(track)" novalidate>
+            <input type="text" name="note" ng-model="Tracks.note" />
+            <input type="text" name="image" ng-model="Tracks.image" />
+            <button type="button"
+              class="btn btn-danger"
+              ng-click="Tracks.reset()">
+              Cancel
+            </button>
+            <button type="submit"
+              class="btn btn-success"
+              ng-click="Tracks.addToPlaylist(track)">
+              Add to Playlist
+            </button>
+          </form>
+        </note>
+      </result>
+      <div class="result load-more">
+        <button class="load-more-btn btn btn-success"
+          ng-if="Tracks.info.next"
+          ng-hide="Tracks.showNote"
+          ng-disabled="!Tracks.canLoadMore"
+          ng-click="Tracks.more()">
+          View More Tracks
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

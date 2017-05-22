@@ -8,6 +8,13 @@
     <h4>{{Result.info.name}}</h4>
     <div ng-transclude="content"></div>
     <div ng-transclude="note"></div>
-    <button ng-click="Result.action({ id: Result.info.id })">{{::Result.ctaText}}</button>
+    <button class="btn"
+      ng-hide="Result.hideButton"
+      ng-disabled="!Result.canDoAction"
+      ng-class="{
+        'btn-success': Result.canDoAction,
+        'btn-danger': !Result.canDoAction
+      }"
+      ng-click="Result.action({ id: Result.info.id })">{{::Result.ctaText}}</button>
   </div>
 </div>

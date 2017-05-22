@@ -10,6 +10,6 @@ angular.module('search')
     };
     this.collapsed = false;
     this.toggleCollapsed = function() {
-      this.colapsed = !this.collapsed;
+      this.collapsed = !this.collapsed;
     };
   });

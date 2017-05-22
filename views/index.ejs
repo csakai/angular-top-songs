@@ -13,18 +13,30 @@
           <!--playlist here -->
         </div>
         <div class="col-xs-10">
-          <song-searchbar can-search="Main.isNotWaiting()" on-search="Main.dataHandler(data)"></song-searchbar>
-          <artists info="Main.data.artists",
-            action="Main.getAlbumsByArtist(id)"
-            get-more="Main.more('artist')"
+          <song-searchbar can-search="Main.isNotWaiting()"
+            ng-show="!(Main.albumsOnly || Main.tracksOnly)"
+            on-search="Main.dataHandler(data)"
             load-start-event="{{::Main.loadStartEvent}}"
-            load-end-event="{{::Main.loadEndEvent}}"></artists>
-          </div>
-          <div ng-if="Main.hasResults.albums">
-            <div class="results-container">
-              <result class="result" info="Main.data.albums.items[0]" action="Main.logThing(id)" cta-text="View Tracks"></result>
-            </div>
-          </div>
+            set-mode="Main.setToSearchMode()"></song-searchbar>
+          <artists info="Main.data.artists"
+            ng-show="!(Main.albumsOnly || Main.tracksOnly)"
+            action="Main.getAlbumsByArtist(id)"
+            get-more="Main.artistMore()"
+            can-load-more="Main.isNotWaiting()"
+            load-start-event="{{::Main.loadStartEvent}}"></artists>
+          <albums info="Main.data.albums"
+            ng-hide="Main.tracksOnly"
+            action="Main.getTracksByAlbum(id)"
+            get-more="Main.albumMore()"
+            can-load-more="Main.isNotWaiting()"
+            load-start-event="{{::Main.loadStartEvent}}"></albums>
+          <tracks info="Main.data.tracks"
+            ng-hide="Main.albumsOnly"
+            action="Main.addToPlaylist(playlistData)"
+            can-add-to-playlist="Main.canAddToPlaylist(id)"
+            get-more="Main.trackMore()"
+            can-load-more="Main.isNotWaiting()"
+            load-start-event="{{::Main.loadStartEvent}}"></tracks>
         </div>
       </div>
     </div>

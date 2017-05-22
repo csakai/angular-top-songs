@@ -6,6 +6,7 @@ angular.module('searchbar')
         $scope.$emit('loading:start', SearchSvc.DEFAULT_TYPES);
         return SearchSvc.search(terms, 0)
           .then(function(data) {
+            ctrl.setMode();
             return ctrl.onSearch({data: data});
           });
       };
@@ -17,6 +18,8 @@ angular.module('searchbar')
       scope: {},
       bindToController: {
         canSearch: '=',
+        setMode: '&',
+        loadStartEvent: '@',
         onSearch: '&'
       },
       controllerAs: 'Search',

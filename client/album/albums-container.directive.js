@@ -1,7 +1,7 @@
 angular.module('search')
-  .directive('artists', function() {
+  .directive('albums', function() {
     function link(scope, el, attr, ctrl) {
-      ctrl.type = 'artist';
+      ctrl.type = 'album';
       ctrl.action = function(id) {
         return ctrl.actionFn({ id: id });
       };
@@ -15,11 +15,11 @@ angular.module('search')
         loadStartEvent: '@'
       },
       controller: 'resultsCtrl',
-      controllerAs: 'Artists',
+      controllerAs: 'Albums',
       link: link,
-      require: 'artists',
+      require: 'albums',
       restrict: 'E',
       scope: {},
-      templateUrl: 'src/artist/artists-container.html'
+      templateUrl: 'src/album/albums-container.html'
     };
   });
