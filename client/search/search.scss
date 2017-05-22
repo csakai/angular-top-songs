@@ -3,6 +3,17 @@
     flex-wrap: wrap;
     .result {
         width: 150px;
+        &.load-more {
+            .thumbnail {
+                justify-content: center;
+            }
+        }
+        &.result-with-playlist-form {
+            width: 100%;
+            .thumbnail {
+                height: auto;
+            }
+        }
         .preview, .no-preview {
             background-image: url(/assets/img/spotify-icon.png);
             background-repeat: no-repeat;

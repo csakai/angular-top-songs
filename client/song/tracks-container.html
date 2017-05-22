@@ -20,6 +20,7 @@
       <result ng-repeat="track in Tracks.info.items"
         ng-if="!Tracks.selectedId || track.id === Tracks.selectedId"
         class="result"
+        ng-class="{ 'result-with-playlist-form': track.id === Tracks.selectedId }"
         info="track"
         action="Tracks.showNoteForm(track.id)"
         can-do-action="Tracks.canAddToPlaylist({ id: track.id })"
@@ -27,8 +28,12 @@
         cta-text="Add to playlist">
         <note ng-if="Tracks.showNote">
           <form name="Tracks.playlistContent" ng-submit="Tracks.addToPlaylist(track)" novalidate>
-            <input type="text" name="note" ng-model="Tracks.note" />
-            <input type="text" name="image" ng-model="Tracks.image" />
+            <div class="form-group">
+              <label for="note-input">Add a note</label>
+              <textarea id="note-input" class="form-control" name="note" ng-model="Tracks.note" />
+              <label for="image-input">Add an image url</label>
+              <input id="image-input" class="form-control" type="text" name="image" ng-model="Tracks.image" />
+            </div>
             <button type="button"
               class="btn btn-danger"
               ng-click="Tracks.reset()">
@@ -42,14 +47,15 @@
           </form>
         </note>
       </result>
-      <div class="result load-more">
-        <button class="load-more-btn btn btn-success"
-          ng-if="Tracks.info.next"
-          ng-hide="Tracks.showNote"
-          ng-disabled="!Tracks.canLoadMore"
-          ng-click="Tracks.more()">
-          View More Tracks
-        </button>
+      <div class="result load-more" ng-if="Tracks.info.next">
+        <div class="thumbnail">
+          <button class="load-more-btn btn btn-success"
+            ng-hide="Tracks.showNote"
+            ng-disabled="!Tracks.canLoadMore"
+            ng-click="Tracks.more()">
+            View More Tracks
+          </button>
+        </div>
       </div>
     </div>
   </div>
