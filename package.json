@@ -31,9 +31,7 @@
     "express": "^4.14.0",
     "glob": "^7.1.0",
     "jquery": "^3.1.1",
-    "lodash": "^4.16.2"
-  },
-  "devDependencies": {
+    "lodash": "^4.16.2",
     "ng-templatecache": "^0.1.4",
     "node-sass": "^4.5.3"
   }
