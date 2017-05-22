@@ -1,10 +1,15 @@
 angular.module('search')
   .directive('albums', function() {
     function link(scope, el, attr, ctrl) {
-      ctrl.type = 'album';
       ctrl.action = function(id) {
         return ctrl.actionFn({ id: id });
       };
+
+      scope.$watch('Albums.displayOnly', function(newVal, oldVal) {
+        if (newVal !== oldVal && newVal) {
+          ctrl.collapsed = false;
+        }
+      });
     }
     return {
       bindToController: {

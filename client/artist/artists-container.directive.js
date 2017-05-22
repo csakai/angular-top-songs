@@ -1,7 +1,6 @@
 angular.module('search')
   .directive('artists', function() {
     function link(scope, el, attr, ctrl) {
-      ctrl.type = 'artist';
       ctrl.action = function(id) {
         return ctrl.actionFn({ id: id });
       };

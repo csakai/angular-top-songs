@@ -1,7 +1,11 @@
 angular.module('search')
   .directive('tracks', function() {
     function link(scope, el, attr, ctrl) {
-      ctrl.type = 'track';
+      scope.$watch('Tracks.displayOnly', function(newVal, oldVal) {
+        if (newVal !== oldVal && newVal) {
+          ctrl.collapsed = false;
+        }
+      });
       ctrl.addToPlaylist = function(track) {
         var playlistData = {
           track: track.name,
