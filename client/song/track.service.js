@@ -1,38 +1,38 @@
 angular.module('search')
-  .service('AlbumSvc', function($q, Spotify, SpotifyData) {
+  .service('TrackSvc', function($q, Spotify, SpotifyData) {
     var service = this;
-    this.cacheId = 'albums';
+    this.cacheId = 'tracks';
 
-    this.currentArtistId = '';
+    this.currentAlbumId = '';
 
-    function getAlbums(id, offset) {
+    function getTracks(id, offset) {
       var options = {
         limit: SpotifyData.LIMIT,
         offset: offset || 0
       };
-      return Spotify.getArtistAlbums(id, options)
+      return Spotify.getAlbumTracks(id, options)
         .then(function(response) {
           return SpotifyData.updateCached(service.cacheId, response.data);
         });
     }
 
-    this.getAlbumsByArtist = function(id, isMore) {
+    this.getTracksByAlbum = function(id, isMore) {
       var promise;
-      if (this.currentArtistId === id) {
+      if (this.currentAlbumId === id) {
         if (isMore) {
           var offset = SpotifyData.getNextOffset(this.cacheId);
-          promise = getAlbums(id, offset);
+          promise = getTracks(id, offset);
         } else {
           promise = $q.resolve(SpotifyData.cached.get(this.cacheId));
         }
       } else {
-        this.currentArtistId = id;
+        this.currentAlbumId = id;
         SpotifyData.clearCached(this.cacheId);
-        promise = getAlbums(id);
+        promise = getTracks(id);
       }
       return promise
-        .then(function(albums) {
-          return { albums: albums };
+        .then(function(tracks) {
+          return { tracks: tracks };
         });
     };
   });
